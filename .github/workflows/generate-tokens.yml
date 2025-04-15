@@ -33,6 +33,9 @@ jobs:
           JSON_FILE_PATH: tokens.json
           OUTPUT_FILE_PATH: app-tokens.css
 
+      - name: check diff
+        run: git diff --stat
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:

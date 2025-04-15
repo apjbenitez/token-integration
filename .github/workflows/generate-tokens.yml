@@ -7,10 +7,17 @@ on:
 
 jobs:
   generate_tokens:
+
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -25,11 +32,10 @@ jobs:
           JSON_FILE_PATH: tokens.json # Adjust the path to your JSON file
           OUTPUT_FILE_PATH: app-tokens.css # Adjust the output path
 
-      - name: Commit changes (if any)
+      - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "feat: Auto-generated app tokens"
-          github_token: ${{ secrets.GH_TOKEN }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5

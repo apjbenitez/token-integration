@@ -1,10 +1,9 @@
-name: Generate Design Tokens
+name: Generate Tokens and Create PR
 
 on:
-  pull_request:
+  push:
     branches:
       - tokens-test
-    types: [opened, synchronize] # Trigger on new PRs and when they're updated
 
 jobs:
   generate_tokens:
@@ -12,8 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -32,6 +29,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "feat: Auto-generated app tokens"
+          github_token: ${{ secrets.GH_TOKEN }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5

@@ -1,0 +1,35 @@
+name: Generate Design Tokens
+
+on:
+  pull_request:
+    branches:
+      - tokens-test
+    types: [opened, synchronize] # Trigger on new PRs and when they're updated
+
+jobs:
+  generate_tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+
+      # - name: Install dependencicn install, pnpm install if you use them
+
+      - name: Generate app tokens
+        run: node generate-tokens.js # Assuming your script is named this
+        env:
+          JSON_FILE_PATH: tokens.json # Adjust the path to your JSON file
+          OUTPUT_FILE_PATH: app-tokens.css # Adjust the output path
+
+      - name: Commit and push changes (optional)
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "feat: Auto-generate app tokens"
+          push_options: '--force' # Be mindful of using --force
+        # Only run this step if the token file was actually changed
+        if: changedFiles().includes(env.OUTPUT_FILE_PATH)

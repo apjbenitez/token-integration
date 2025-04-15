@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -26,10 +28,16 @@ jobs:
           JSON_FILE_PATH: tokens.json # Adjust the path to your JSON file
           OUTPUT_FILE_PATH: app-tokens.css # Adjust the output path
 
-      - name: Commit and push changes (optional)
+      - name: Commit changes (if any)
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "feat: Auto-generate app tokens"
-          push_options: '--force' # Be mindful of using --force
-        # Only run this step if the token file was actually changed
-        if: changedFiles().includes(env.OUTPUT_FILE_PATH)
+          commit_message: "feat: Auto-generated app tokens"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          branch: ${{ github.head_ref }} # The current branch (tokens-test)
+          base: main
+          title: "feat: Update design tokens from tokens-test"
+          body: "This pull request automatically updates the design tokens based on the latest changes in the `tokens-test` branch."

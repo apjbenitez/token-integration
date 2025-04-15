@@ -48,6 +48,7 @@ jobs:
           branch: design-tokens/patch
           branch-suffix: timestamp
           base: development
+          head: tokens-test
           delete-branch: true
           title: "feat: Update design tokens from tokens-test"
           body: "This pull request automatically updates the design tokens based on the latest changes in the `tokens-test` branch."

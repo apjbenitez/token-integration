@@ -1,10 +1,9 @@
-name: Generate Design Tokens
+name: Generate Tokens and Create PR
 
 on:
-  pull_request:
+  push:
     branches:
       - tokens-test
-    types: [opened, synchronize] # Trigger on new PRs and when they're updated
 
 jobs:
   generate_tokens:

@@ -42,6 +42,6 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           branch: ${{ github.head_ref }} # The current branch (tokens-test)
-          base: main
+          base: master
           title: "feat: Update design tokens from tokens-test"
           body: "This pull request automatically updates the design tokens based on the latest changes in the `tokens-test` branch."

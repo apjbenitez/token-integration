@@ -41,6 +41,6 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GH_TOKEN }}
-          base: master
+          base: development
           title: "feat: Update design tokens from tokens-test"
           body: "This pull request automatically updates the design tokens based on the latest changes in the `tokens-test` branch."
